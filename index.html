@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jianglai.me</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<style type="text/css">
+
+</style>
+<body>
+
+<div class="hex-body">
+        <div class="hexes">
+            <div class="hex" style="opacity:0">
+                <canvas class="idle" data-image="images/item_01.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_01.png" width="300" height="348" ></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+        </div>
+        <div class="hexes hexes-outset">
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_02.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_03.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_04.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+        </div>
+        <div class="hexes">
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_05.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+            <div class="hex">
+                <canvas class="idle" data-image="images/item_06.png" width="300" height="348"></canvas>
+                <canvas class="overlay" width="300" height="348"></canvas>
+            </div>
+        </div>
+</div>
+
+<script src="./jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+	    var hexes = $('div.hex'),
+	        coords = [[150,0],[300,87],[300,261],[150,348],[0,261],[0,87]];
+
+	    hexes.each(function(hex){
+	    	
+	        var idle = $(hexes[hex]).find('canvas.idle'),
+	        	overlay = $(hexes[hex]).find('canvas.overlay'),
+	            ico = idle[0].getContext('2d'),
+	            image;
+
+	        idle.css('opacity' , 0);
+	        ico.save();
+	        ico.beginPath();
+	        ico.moveTo(coords[5][0],coords[5][1]);
+	        for (var i = 0; i < coords.length; i++) {
+	        	ico.lineTo(coords[i][0],coords[i][1]);
+	        }
+
+	        ico.closePath();
+	        ico.fillStyle = '#03a17c';
+	        ico.fill();
+	        ico.restore();
+
+	        ico.save();
+	        image = new Image();
+	        image.src = idle.attr('data-image');
+	        image.onload = function(){
+	            idle.animate({'opacity': '1'}, 500);
+	            ico.drawImage( image , 0 , 0 );
+	            ico.restore();
+	        	ico.globalCompositeOperation = 'destination-in';
+	        	var ico_overlay = overlay[0].getContext('2d');
+		        ico_overlay.save();
+		        ico_overlay.beginPath();
+		        ico_overlay.moveTo(coords[5][0],coords[5][1]);
+		        for (var i = 0; i < coords.length; i++) {
+		        	ico_overlay.lineTo(coords[i][0],coords[i][1]);
+		        }
+
+		        ico_overlay.closePath();
+		        ico_overlay.fillStyle = '#fe3e67';
+		        ico_overlay.fill();
+		        ico_overlay.restore();
+
+		        ico_overlay.save();
+		        ico_overlay.clip();
+	        };
+	    });
+	});
+
+
+
+</script>
+</body>
+</html>
